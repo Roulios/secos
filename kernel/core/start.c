@@ -5,6 +5,7 @@
 #include <uart.h>
 #include <intr.h>
 #include <info.h>
+#include <mem.h>
 
 volatile const uint32_t __mbh__ mbh[] = {
    MBH_MAGIC,
@@ -22,9 +23,11 @@ void __attribute__((regparm(1))) start(mbi_t *mbi)
    pic_init();
    uart_init();
    intr_init();
-   debug("\n" RELEASE " (c) Airbus\n");
-
-   tp();
+   debug("\n\" RELEASE \" (c) Airbus\n");
+   
+   // Switch to protected mode
+   protected_mode();
+   main();
 
    panic("halted !");
 }
